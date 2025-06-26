@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Password Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h1 {
+      color: #38bdf8;
+    }
+    .password {
+      font-size: 2rem;
+      margin: 20px;
+      color: #facc15;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background: #22c55e;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #16a34a;
+    }
+    .copied {
+      margin-top: 10px;
+      color: #10b981;
+    }
+  </style>
+</head>
+<body>
+  <h1>Password Generator</h1>
+  <div class="password" id="password">Click Generate</div>
+  <button onclick="generatePassword()">Generate Password</button>
+  <div class="copied" id="copied"></div>
+
+  <script>
+    const adjectives = ["Coral", "Brave", "Happy", "Gentle", "Quiet", "Lively", "Swift"];
+    const nouns = ["White", "Tiger", "Cloud", "Stone", "Falcon", "Ocean", "Shadow"];
+    const symbols = ["!", "@", "#", "$", "%", "&", "*"];
+
+    function getRandomElement(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function generatePassword() {
+      const adj = getRandomElement(adjectives);
+      const num = Math.floor(10 + Math.random() * 90); // 10–99
+      const noun = getRandomElement(nouns);
+      const symbol = getRandomElement(symbols);
+
+      const password = `${adj}${num}${noun}${symbol}`;
+      const passwordDiv = document.getElementById('password');
+      const copiedDiv = document.getElementById('copied');
+
+      passwordDiv.textContent = password;
+
+      // Copy to clipboard
+      navigator.clipboard.writeText(password).then(() => {
+        copiedDiv.textContent = "Copied to clipboard!";
+        setTimeout(() => copiedDiv.textContent = "", 2000);
+      });
+    }
+  </script>
+</body>
+</html>
