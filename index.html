@@ -2,28 +2,42 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Password Generator</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0f172a;
       color: #f8fafc;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
+      justify-content: start;
+      min-height: 100vh;
+      padding: 40px 20px;
       margin: 0;
     }
+
     h1 {
       color: #38bdf8;
+      margin-bottom: 10px;
     }
-    .password {
-      font-size: 2rem;
-      margin: 20px;
-      color: #facc15;
+
+    label, input {
+      font-size: 1rem;
     }
+
+    input[type="number"] {
+      margin: 10px;
+      padding: 6px;
+      width: 60px;
+      border-radius: 6px;
+      border: none;
+      background: #1e293b;
+      color: #f8fafc;
+      text-align: center;
+    }
+
     button {
       padding: 10px 20px;
       font-size: 1rem;
@@ -33,20 +47,52 @@
       border-radius: 8px;
       cursor: pointer;
       transition: background 0.3s;
+      margin-top: 10px;
     }
+
     button:hover {
       background: #16a34a;
     }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    li {
+      background: #1e293b;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 6px;
+      font-size: 1.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    li:hover {
+      background: #334155;
+    }
+
     .copied {
       margin-top: 10px;
       color: #10b981;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
   <h1>Password Generator</h1>
-  <div class="password" id="password">Click Generate</div>
-  <button onclick="generatePassword()">Generate Password</button>
+  <label for="count">How many passwords?</label>
+  <input type="number" id="count" min="1" max="20" value="5" />
+  <button onclick="generatePasswords()">Generate</button>
+
+  <ul id="passwordList"></ul>
   <div class="copied" id="copied"></div>
 
   <script>
@@ -63,18 +109,31 @@
       const num = Math.floor(10 + Math.random() * 90); // 10–99
       const noun = getRandomElement(nouns);
       const symbol = getRandomElement(symbols);
+      return `${adj}${num}${noun}${symbol}`;
+    }
 
-      const password = `${adj}${num}${noun}${symbol}`;
-      const passwordDiv = document.getElementById('password');
+    function generatePasswords() {
+      const count = parseInt(document.getElementById('count').value);
+      const list = document.getElementById('passwordList');
       const copiedDiv = document.getElementById('copied');
 
-      passwordDiv.textContent = password;
+      list.innerHTML = '';
+      copiedDiv.textContent = '';
 
-      // Copy to clipboard
-      navigator.clipboard.writeText(password).then(() => {
-        copiedDiv.textContent = "Copied to clipboard!";
-        setTimeout(() => copiedDiv.textContent = "", 2000);
-      });
+      for (let i = 0; i < count; i++) {
+        const pwd = generatePassword();
+        const li = document.createElement('li');
+        li.textContent = pwd;
+
+        li.onclick = () => {
+          navigator.clipboard.writeText(pwd).then(() => {
+            copiedDiv.textContent = `"${pwd}" copied to clipboard!`;
+            setTimeout(() => copiedDiv.textContent = '', 2000);
+          });
+        };
+
+        list.appendChild(li);
+      }
     }
   </script>
 </body>
