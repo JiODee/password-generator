@@ -17,16 +17,13 @@
       padding: 40px 20px;
       margin: 0;
     }
-
     h1 {
       color: #ff0000;
       margin-bottom: 10px;
     }
-
     label, input {
       font-size: 1rem;
     }
-
     input[type="number"] {
       margin: 10px;
       padding: 6px;
@@ -37,7 +34,6 @@
       color: #f8fafc;
       text-align: center;
     }
-
     #generateBtn {
       width: 100px;
       height: 100px;
@@ -45,11 +41,9 @@
       margin-top: 15px;
       transition: transform 0.2s ease;
     }
-
     #generateBtn:hover {
       transform: scale(1.1);
     }
-
     ul {
       list-style: none;
       padding: 0;
@@ -57,7 +51,6 @@
       width: 100%;
       max-width: 400px;
     }
-
     li {
       background: #1e293b;
       padding: 10px;
@@ -70,11 +63,9 @@
       cursor: pointer;
       transition: background 0.3s;
     }
-
     li:hover {
       background: #334155;
     }
-
     .copied {
       margin-top: 10px;
       color: #10b981;
@@ -87,7 +78,6 @@
   <label for="count">How many passwords?</label>
   <input type="number" id="count" min="1" max="20" value="5" />
 
-  <!-- Image as the generate button -->
   <img 
     src="face-button.png" 
     alt="Generate Passwords" 
@@ -99,24 +89,57 @@
   <div class="copied" id="copied"></div>
 
   <script>
-    const adjectives = ["Coral", "Brave", "Happy", "Gentle", "Quiet", "Lively", "Swift"];
-    const nouns = ["White", "Tiger", "Cloud", "Stone", "Falcon", "Ocean", "Shadow"];
-    const symbols = ["!", "@", "#", "$", "%", "&", "*"];
+    const adjectives = [
+      "able", "bad", "best", "better", "big", "black", "certain", "clear",
+      "different", "early", "easy", "economic", "federal", "free", "full",
+      "good", "great", "hard", "high", "important", "international", "large",
+      "late", "little", "local", "long", "low", "major", "military", "national",
+      "new", "old", "only", "other", "political", "possible", "public", "real",
+      "recent", "right", "small", "social", "special", "strong", "sure", "true",
+      "white", "whole", "young",
+      "ancient", "brave", "calm", "delightful", "eager", "faithful", "gentle", "happy",
+      "jolly", "kind", "lively", "nice", "proud", "silly", "thankful", "victorious",
+      "witty", "zealous", "quiet", "rapid", "sharp", "shiny", "silent", "slow",
+      "smart", "soft", "strong", "sweet", "tasty", "tender", "vast", "wild", "wonderful",
+      "yellow", "young", "zany"
+    ];
+
+    const nouns = [
+      "time", "person", "year", "way", "day", "thing", "man", "world", "life",
+      "hand", "part", "child", "eye", "woman", "place", "work", "week", "case",
+      "point", "government", "company", "number", "group", "problem", "fact",
+      "beach", "car", "city", "dog", "house", "job", "love", "music", "river",
+      "school", "street", "tree", "water", "air", "animal", "book", "boy", "camera",
+      "cat", "child", "day", "door", "egg", "eye", "face", "family", "father",
+      "food", "girl", "glass", "grass", "ground", "hair", "heart", "hill", "home",
+      "horse", "hour", "house", "king", "lake", "land", "law", "leaf", "leg",
+      "life", "light", "line", "list", "mother", "name", "night", "paper",
+      "party", "picture", "place", "plant", "power", "rain", "river", "road",
+      "room", "sea", "seat", "shop", "sky", "song", "sound", "spring", "state",
+      "story", "street", "sun", "table", "thing", "time", "top", "town",
+      "tree", "water", "week", "wind", "woman", "word", "world", "year"
+    ];
+
+    const symbols = ["!", "@", "#", "$", "%", "&", "*", "^"];
 
     function getRandomElement(arr) {
       return arr[Math.floor(Math.random() * arr.length)];
     }
 
+    function capitalize(word) {
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }
+
     function generatePassword() {
-      const adj = getRandomElement(adjectives);
+      const adj = capitalize(getRandomElement(adjectives));
       const num = Math.floor(10 + Math.random() * 90); // 10–99
-      const noun = getRandomElement(nouns);
+      const noun = capitalize(getRandomElement(nouns));
       const symbol = getRandomElement(symbols);
       return `${adj}${num}${noun}${symbol}`;
     }
 
     function generatePasswords() {
-      const count = parseInt(document.getElementById('count').value);
+      const count = parseInt(document.getElementById('count').value) || 5;
       const list = document.getElementById('passwordList');
       const copiedDiv = document.getElementById('copied');
 
